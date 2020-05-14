@@ -1,5 +1,6 @@
 package com.qintess.curso.api.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +28,10 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "user")
-public class User {
+public class User  implements Serializable{
 	
+	private static final long serialVersionUID = -5723622569278223993L;
+
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	

@@ -1,5 +1,6 @@
 package com.qintess.curso.api.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -27,8 +28,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "request_stage")
-public class RequestStage {
-	
+public class RequestStage implements Serializable {
+
+	private static final long serialVersionUID = 2963345762685544895L;
+
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	

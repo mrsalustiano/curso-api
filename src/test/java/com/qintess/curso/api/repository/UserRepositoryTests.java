@@ -21,7 +21,7 @@ public class UserRepositoryTests {
 	
 	@Test
 	@Order(1)
-	void saveTest() {
+	public void saveTest() {
 	
 		User user = new User();
 		user.setId(null);
@@ -38,7 +38,7 @@ public class UserRepositoryTests {
 	
 	@Test
 	@Order(2)
-	void updateTest() {
+	public void updateTest() {
 		User user = new User();
 		user.setId(1L);
 		user.setName("marcelo Silva");
@@ -55,7 +55,7 @@ public class UserRepositoryTests {
 	
 	@Test
 	@Order(3)
-	void getByIdTest() {
+	public void getByIdTest() {
 		Optional<User> result = repository.findById(1L);
 		User user = result.get();
 		
@@ -64,7 +64,7 @@ public class UserRepositoryTests {
 	
 	@Test
 	@Order(4)
-	void listTest() {
+	public void listTest() {
 		
 		List<User> users = repository.findAll();
 		

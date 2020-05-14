@@ -44,11 +44,11 @@ public class Request implements Serializable {
 	@Column(columnDefinition = "text")
 	private String description;
 	
-	@Column(name = "creation_time", nullable = false)
+	@Column(name = "creation_time", nullable = false, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date creationDate;
 	
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	@Column(length = 12 , nullable = false)
 	private RequestState state;
 	

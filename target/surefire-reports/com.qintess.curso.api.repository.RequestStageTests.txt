@@ -1,0 +1,36 @@
+-------------------------------------------------------------------------------
+Test set: com.qintess.curso.api.repository.RequestStageTests
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 2, Errors: 2, Skipped: 0, Time elapsed: 0.179 s <<< FAILURE! - in com.qintess.curso.api.repository.RequestStageTests
+SaveTest  Time elapsed: 0.053 s  <<< ERROR!
+org.springframework.dao.DataIntegrityViolationException: could not execute statement; SQL [n/a]; constraint [null]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at com.qintess.curso.api.repository.RequestStageTests.SaveTest(RequestStageTests.java:42)
+Caused by: org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at com.qintess.curso.api.repository.RequestStageTests.SaveTest(RequestStageTests.java:42)
+Caused by: java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`cursoapi`.`request_stage`, CONSTRAINT `FK7q57eym149ijvtip7u314t8r1` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`))
+	at com.qintess.curso.api.repository.RequestStageTests.SaveTest(RequestStageTests.java:42)
+
+listByRequestAllTest  Time elapsed: 0.017 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+
+Expecting:
+ <0>
+to be equal to:
+ <1>
+but was not.
+	at com.qintess.curso.api.repository.RequestStageTests.listByRequestAllTest(RequestStageTests.java:66)
+
+getByIdTest  Time elapsed: 0.009 s  <<< ERROR!
+java.util.NoSuchElementException: No value present
+	at com.qintess.curso.api.repository.RequestStageTests.getByIdTest(RequestStageTests.java:55)
+
+listByRequestByIdTest  Time elapsed: 0.069 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+
+Expecting:
+ <0>
+to be equal to:
+ <1>
+but was not.
+	at com.qintess.curso.api.repository.RequestStageTests.listByRequestByIdTest(RequestStageTests.java:75)
+

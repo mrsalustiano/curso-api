@@ -1,0 +1,36 @@
+-------------------------------------------------------------------------------
+Test set: com.qintess.curso.api.repository.RequestRepositoryTests
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 2, Errors: 2, Skipped: 0, Time elapsed: 0.916 s <<< FAILURE! - in com.qintess.curso.api.repository.RequestRepositoryTests
+saveTest  Time elapsed: 0.53 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+
+Expecting:
+ <2L>
+to be equal to:
+ <1L>
+but was not.
+	at com.qintess.curso.api.repository.RequestRepositoryTests.saveTest(RequestRepositoryTests.java:36)
+
+updateStatusTest  Time elapsed: 0.053 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+
+Expecting:
+ <0>
+to be equal to:
+ <1>
+but was not.
+	at com.qintess.curso.api.repository.RequestRepositoryTests.updateStatusTest(RequestRepositoryTests.java:85)
+
+getByIdTest  Time elapsed: 0.053 s  <<< ERROR!
+java.util.NoSuchElementException: No value present
+	at com.qintess.curso.api.repository.RequestRepositoryTests.getByIdTest(RequestRepositoryTests.java:54)
+
+updateTest  Time elapsed: 0.098 s  <<< ERROR!
+org.springframework.dao.DataIntegrityViolationException: could not execute statement; SQL [n/a]; constraint [null]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at com.qintess.curso.api.repository.RequestRepositoryTests.updateTest(RequestRepositoryTests.java:45)
+Caused by: org.hibernate.exception.ConstraintViolationException: could not execute statement
+	at com.qintess.curso.api.repository.RequestRepositoryTests.updateTest(RequestRepositoryTests.java:45)
+Caused by: java.sql.SQLIntegrityConstraintViolationException: Column 'creation_time' cannot be null
+	at com.qintess.curso.api.repository.RequestRepositoryTests.updateTest(RequestRepositoryTests.java:45)
+

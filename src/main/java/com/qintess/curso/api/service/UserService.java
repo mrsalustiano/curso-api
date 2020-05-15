@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.qintess.curso.api.domain.User;
+import com.qintess.curso.api.exception.NotFoundException;
 import com.qintess.curso.api.repository.UserRepository;
 import com.qintess.curso.api.util.HashUtil;
 
@@ -34,7 +35,9 @@ public class UserService {
 	
 	public User getById(Long id) {
 		Optional<User> result = repository.findById(id);
-		return result.get();
+		
+		return result.orElseThrow(() -> new NotFoundException("Nao existe o ID Informado: " + id));
+		
 	}
 	
 	public List<User> listAll(){

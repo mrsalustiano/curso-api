@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.qintess.curso.api.domain.Request;
 import com.qintess.curso.api.domain.enums.RequestState;
+import com.qintess.curso.api.exception.NotFoundException;
 import com.qintess.curso.api.repository.RequestRepository;
 
 @Service
@@ -33,7 +34,8 @@ public class RequestService {
 	
 	public Request getById(Long id) {
 		Optional<Request>  result = repository.findById(id);
-		return result.get();
+		return result.orElseThrow(() -> new NotFoundException("Nao existe o ID Informado: " + id));
+		
 	}
 	
 	public List<Request> listAll(){

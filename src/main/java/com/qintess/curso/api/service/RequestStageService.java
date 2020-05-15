@@ -30,7 +30,8 @@ public class RequestStageService {
 		Long requestId = requestStage.getId();
 		RequestState state = requestStage.getState();
 		
-		repoRequest.UpdateStatus(requestId, state);
+		repoRequest.updateStatus(requestId, state);
+		
 		
 		return createStage;
 		

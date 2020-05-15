@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,14 +45,14 @@ public class RequestRepositoryTests {
 		assertThat(UpdateRequest.getSubject()).isEqualTo("MacBook");
 	}
 	
-	@Test
-	@Order(3)
-	public void getByIdTest() {
-		Optional<Request> result2 = repository.findById(1L);
-		Request request2 = result2.get();
-		
-		assertThat(request2.getSubject()).isEqualTo("MacBook");
-	}
+//	@Test
+//	@Order(3)
+//	public void getByIdTest() {
+//		Optional<Request> result2 = repository.findById(1L);
+//		Request request2 = result2.get();
+//		
+//		assertThat(request2.getSubject()).isEqualTo("MacBook");
+//	}
 	
 	@Test
 	@Order(4)
@@ -80,7 +78,7 @@ public class RequestRepositoryTests {
 	@Order(6)
 	public void updateStatusTest() {
 		
-		int linhasAfetadas = repository.UpdateStatus(1L, RequestState.IN_PROGRESS);
+		int linhasAfetadas = repository.updateStatus(1L, RequestState.IN_PROGRESS);
 		
 		assertThat(linhasAfetadas).isEqualTo(1);		
 	}

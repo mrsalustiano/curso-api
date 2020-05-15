@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.qintess.curso.api.domain.Request;
 import com.qintess.curso.api.domain.User;
 import com.qintess.curso.api.dto.UserLoginDto;
+import com.qintess.curso.api.service.RequestService;
 import com.qintess.curso.api.service.UserService;
 
 @RestController
@@ -23,6 +25,9 @@ public class UserResource {
 	
 	@Autowired
 	private UserService service;
+	
+	@Autowired
+	private RequestService srvRequest;
 	
 	@PostMapping
 	public ResponseEntity<User> save(@RequestBody User user){
@@ -58,6 +63,9 @@ public class UserResource {
 		
 	}
 	
-		
-
+	@GetMapping("{id}/requests")
+	public ResponseEntity<List<Request>> listAllRequestsById(@PathVariable(name = "id") Long id){
+		List<Request> requests = srvRequest.listAllByOwnerId(id);
+		return ResponseEntity.ok(requests);
+	}
 }

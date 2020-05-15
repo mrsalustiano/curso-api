@@ -38,11 +38,11 @@ public class RequestStage implements Serializable {
 	@Column(columnDefinition = "text")
 	private String description;
 	
-	@Column(name = "realization_time", nullable = false)
+	@Column(name = "realization_time", nullable = false, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date realizationDate;
 	
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	@Column(length = 20 , nullable = false)
 	private RequestState state;
 	

@@ -1,6 +1,8 @@
 package com.qintess.curso.api.service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,21 @@ public class RequestService {
 		return updateRequest;
 	}
 	
+	
+	public Request getById(Long id) {
+		Optional<Request>  result = repository.findById(id);
+		return result.get();
+	}
+	
+	public List<Request> listAll(){
+		List<Request> requests = repository.findAll();
+		return requests;
+	}
+	
+	public List<Request> listAllByOwnerId(Long id){
+		List<Request> requests = repository.findAllByOwnerId(id);
+		return requests;
+	}
 	
 	
 	

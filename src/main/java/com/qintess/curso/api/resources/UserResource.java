@@ -1,8 +1,11 @@
 package com.qintess.curso.api.resources;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.qintess.curso.api.domain.Request;
 import com.qintess.curso.api.domain.User;
 import com.qintess.curso.api.dto.UserLoginDTO;
+import com.qintess.curso.api.dto.UserSaveDTO;
+import com.qintess.curso.api.dto.UserUpdateDTO;
 import com.qintess.curso.api.dto.UserUpdateRoleDTO;
 import com.qintess.curso.api.model.PageModel;
 import com.qintess.curso.api.model.PageRequestModel;
@@ -33,15 +38,23 @@ public class UserResource {
 	private RequestService srvRequest;
 	
 	@PostMapping
-	public ResponseEntity<User> save(@RequestBody User user){
+	public ResponseEntity<User> save(@RequestBody @Valid  UserSaveDTO userdto){
+		User user = userdto.tranformToUser();		
 		User createdUser = service.save(user);
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
 	}
 	
+
+
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<User> update(@PathVariable(name = "id") Long id, @RequestBody User user){
+	public ResponseEntity<User> update(@PathVariable(name = "id") Long id, @Valid @RequestBody UserUpdateDTO userdto){
+		User user = userdto.tranformToUser();
 		user.setId(id);
+		System.out.println(user);
+		
 		User updateUser = service.update(user);
+		System.out.println(updateUser);
+		
 		return ResponseEntity.ok(updateUser);
 	}
 	
@@ -50,6 +63,12 @@ public class UserResource {
 	public ResponseEntity<User> getById(@PathVariable(name = "id") Long id){
 		User user = service.getById(id);
 		return ResponseEntity.ok(user);
+	}
+	
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<String> deleteById(@PathVariable(name = "id") Long id){
+		service.deleteById(id);
+		return ResponseEntity.status(HttpStatus.OK).body("Usuario ID: " + id + " Removido com Sucesso"); 
 	}
 	
 	@GetMapping
@@ -65,7 +84,7 @@ public class UserResource {
 	
 	
 	@PostMapping("/login")
-	public ResponseEntity<User> login(@RequestBody UserLoginDTO user){
+	public ResponseEntity<User> login(@RequestBody @Valid UserLoginDTO user){
 		User logged = service.login(user.getEmail(), user.getPassword());
 		return ResponseEntity.ok(logged);
 		
@@ -84,7 +103,7 @@ public class UserResource {
 	
 	
 	@PatchMapping(value = "/role/{id}")
-	public ResponseEntity<?> updateRole(@PathVariable(name = "id") Long id, @RequestBody UserUpdateRoleDTO userDTO){
+	public ResponseEntity<?> updateRole(@PathVariable(name = "id") Long id, @Valid @RequestBody UserUpdateRoleDTO userDTO){
 		User user = new User();
 		user.setId(id);
 		user.setRole(userDTO.getRole());

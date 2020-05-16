@@ -71,4 +71,12 @@ public class UserService {
 	public int UpdateRole(User user) {
 		return repository.updateRole(user.getId(), user.getRole());
 	}
+	
+	public void deleteById(Long id) {
+		
+		repository.deleteById(id);
+		
+		
+	}
+	 
 }

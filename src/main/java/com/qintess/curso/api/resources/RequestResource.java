@@ -1,5 +1,7 @@
 package com.qintess.curso.api.resources;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.qintess.curso.api.domain.Request;
 import com.qintess.curso.api.domain.RequestStage;
+import com.qintess.curso.api.dto.RequestSaveDTO;
+import com.qintess.curso.api.dto.RequestUpdateDTO;
 import com.qintess.curso.api.model.PageModel;
 import com.qintess.curso.api.model.PageRequestModel;
 import com.qintess.curso.api.service.RequestService;
@@ -30,15 +34,17 @@ public class RequestResource {
 	private RequestStageService srvStage;
 	
 	@PostMapping
-	public ResponseEntity<Request> save(@RequestBody Request request){
-		Request createdRequest = service.save(request);
+	public ResponseEntity<Request> save(@RequestBody @Valid RequestSaveDTO requestDTO){
+		Request save = requestDTO.transformToRequest();		
+		Request createdRequest = service.save(save);
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdRequest);
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<Request> update(@PathVariable(name = "id") Long id, @RequestBody Request request){
-		request.setId(id);
-		Request updateRequest = service.update(request);
+	public ResponseEntity<Request> update(@PathVariable(name = "id") Long id, @Valid @RequestBody RequestUpdateDTO dto){
+		Request save = dto.transformToRequestUpdate();
+		save.setId(id);
+		Request updateRequest = service.update(save);
 		return ResponseEntity.ok(updateRequest);
 	}
 	

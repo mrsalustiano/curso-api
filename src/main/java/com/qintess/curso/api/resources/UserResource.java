@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -14,7 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.qintess.curso.api.domain.Request;
 import com.qintess.curso.api.domain.User;
-import com.qintess.curso.api.dto.UserLoginDto;
+import com.qintess.curso.api.dto.UserLoginDTO;
+import com.qintess.curso.api.dto.UserUpdateRoleDTO;
 import com.qintess.curso.api.model.PageModel;
 import com.qintess.curso.api.model.PageRequestModel;
 import com.qintess.curso.api.service.RequestService;
@@ -63,7 +65,7 @@ public class UserResource {
 	
 	
 	@PostMapping("/login")
-	public ResponseEntity<User> login(@RequestBody UserLoginDto user){
+	public ResponseEntity<User> login(@RequestBody UserLoginDTO user){
 		User logged = service.login(user.getEmail(), user.getPassword());
 		return ResponseEntity.ok(logged);
 		
@@ -78,4 +80,16 @@ public class UserResource {
 		PageModel<Request> modelPage = srvRequest.listAllByOwnerIdLazzyModel(id, model);
 		return ResponseEntity.ok(modelPage);
 	}
+	
+	
+	
+	@PatchMapping(value = "/role/{id}")
+	public ResponseEntity<?> updateRole(@PathVariable(name = "id") Long id, @RequestBody UserUpdateRoleDTO userDTO){
+		User user = new User();
+		user.setId(id);
+		user.setRole(userDTO.getRole());
+			
+		service.UpdateRole(user);
+		return ResponseEntity.ok().build();
+	} 
 }

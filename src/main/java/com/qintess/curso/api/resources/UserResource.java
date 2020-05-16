@@ -1,7 +1,5 @@
 package com.qintess.curso.api.resources;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,11 +9,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.qintess.curso.api.domain.Request;
 import com.qintess.curso.api.domain.User;
 import com.qintess.curso.api.dto.UserLoginDto;
+import com.qintess.curso.api.model.PageModel;
+import com.qintess.curso.api.model.PageRequestModel;
 import com.qintess.curso.api.service.RequestService;
 import com.qintess.curso.api.service.UserService;
 
@@ -50,9 +51,14 @@ public class UserResource {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<User>> listAll(){
-		List<User> users = service.listAll();
-		return ResponseEntity.ok(users);
+	public ResponseEntity<PageModel<User>> listAll(
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size" , defaultValue = "5") int size){
+		
+		PageRequestModel model = new PageRequestModel(page, size);
+		PageModel<User> modelPage = service.listAllOnLazzyModel(model);
+		
+		return ResponseEntity.ok(modelPage);
 	}
 	
 	
@@ -64,8 +70,12 @@ public class UserResource {
 	}
 	
 	@GetMapping("{id}/requests")
-	public ResponseEntity<List<Request>> listAllRequestsById(@PathVariable(name = "id") Long id){
-		List<Request> requests = srvRequest.listAllByOwnerId(id);
-		return ResponseEntity.ok(requests);
+	public ResponseEntity<PageModel<Request>> listAllRequestsById(@PathVariable(name = "id") Long id,
+			@RequestParam(value = "size", defaultValue = "5") int size,
+			@RequestParam(value = "page" , defaultValue = "0") int page){
+		
+		PageRequestModel model = new PageRequestModel(page, size);
+		PageModel<Request> modelPage = srvRequest.listAllByOwnerIdLazzyModel(id, model);
+		return ResponseEntity.ok(modelPage);
 	}
 }

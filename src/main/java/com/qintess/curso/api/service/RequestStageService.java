@@ -5,11 +5,16 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.qintess.curso.api.domain.RequestStage;
 import com.qintess.curso.api.domain.enums.RequestState;
 import com.qintess.curso.api.exception.NotFoundException;
+import com.qintess.curso.api.model.PageModel;
+import com.qintess.curso.api.model.PageRequestModel;
 import com.qintess.curso.api.repository.RequestRepository;
 import com.qintess.curso.api.repository.RequestStageRepository;
 
@@ -47,6 +52,17 @@ public class RequestStageService {
 	public List<RequestStage> listAllByRequestId(Long id){
 		List<RequestStage> lista = repo.findAllByRequestId(id);
 		return lista;	
+	}
+	
+	public PageModel<RequestStage>  listAllByRequestIdLazzyModel(Long id, PageRequestModel model){
+		Pageable page = PageRequest.of(model.getPage(),model.getSize());
+		Page<RequestStage> pageRequestStage = repo.findAllByRequestId(id, page);
+		
+		PageModel<RequestStage> pModel  = new PageModel<RequestStage>((int)pageRequestStage.getNumberOfElements(), 
+				pageRequestStage.getSize(),pageRequestStage.getTotalPages(),pageRequestStage.getContent());
+		
+		return pModel;
+		
 	}
 
 	

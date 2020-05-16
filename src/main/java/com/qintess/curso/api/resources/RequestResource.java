@@ -1,7 +1,5 @@
 package com.qintess.curso.api.resources;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,10 +9,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.qintess.curso.api.domain.Request;
 import com.qintess.curso.api.domain.RequestStage;
+import com.qintess.curso.api.model.PageModel;
+import com.qintess.curso.api.model.PageRequestModel;
 import com.qintess.curso.api.service.RequestService;
 import com.qintess.curso.api.service.RequestStageService;
 
@@ -48,15 +49,28 @@ public class RequestResource {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Request>> listAll(){
-		List<Request> requests = service.listAll();
-		return ResponseEntity.ok(requests);
+	public ResponseEntity<PageModel<Request>> listAll(
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "5") int size){
+		
+		PageRequestModel model = new PageRequestModel(page, size);
+		PageModel<Request> modelPage = service.listAllOnLazzyModel(model);
+		
+		return ResponseEntity.ok(modelPage);
 	}
 	
+	
 	@GetMapping("{id}/stages")
-	public ResponseEntity<List<RequestStage>> listAllRequestsById(@PathVariable(name = "id") Long id){
-		List<RequestStage> requestStages = srvStage.listAllByRequestId(id);
-		return ResponseEntity.ok(requestStages);
+	public ResponseEntity<PageModel<RequestStage>> listAllRequestsById(@PathVariable(name = "id") Long id,
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "size", defaultValue = "5") int size
+			){
+		
+		PageRequestModel model = new PageRequestModel(page, size);
+		
+		PageModel<RequestStage> modelPage = srvStage.listAllByRequestIdLazzyModel(id, model);
+		
+		return ResponseEntity.ok(modelPage);
 	}
 	
 }

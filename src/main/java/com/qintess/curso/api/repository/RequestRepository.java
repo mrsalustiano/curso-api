@@ -2,6 +2,8 @@ package com.qintess.curso.api.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,6 +19,9 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
 	
 	@Transactional(readOnly = true)
 	public List<Request> findAllByOwnerId(Long id);
+	
+	
+	public Page<Request> findAllByOwnerId(Long id, Pageable pageable);
 	
 	@Transactional(readOnly = false) 
 	@Modifying 
